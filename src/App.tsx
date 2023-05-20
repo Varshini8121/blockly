@@ -5,6 +5,7 @@ import { routeNamePath, routeNames } from "./data/routeUtils";
 
 import { ErrorPage } from "./pages/ErrorPage/ErrorPage";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
+import { Projects } from "./pages/Projects/Projects";
 
 function App() {
   // const isUserLoggediIn = isLoggedIn ? <Home /> : <Authentication />;
@@ -18,8 +19,11 @@ function App() {
   return (
     <Routes>
       <Route path={routeNamePath[routeNames.HOME]} element={<Home />}>
-        <Route path={routeNamePath[routeNames.HOME]} element={<Dashboard />} />
-
+        <Route path={routeNamePath[routeNames.HOME]} element={<Projects />} />
+        <Route
+          path={routeNamePath[routeNames.PROJECTS]}
+          element={<Dashboard />}
+        />
         <Route path={"*"} element={<ErrorPage />} />
       </Route>
     </Routes>

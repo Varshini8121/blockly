@@ -253,7 +253,7 @@ export const toolboxCategories = {
     },
     {
       kind: "category",
-      name: "Custom Blocks",
+      name: "Custom Email block",
       contents: [
         {
           kind: "block",

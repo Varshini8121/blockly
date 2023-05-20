@@ -1,49 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BlocklyWorkspace } from "react-blockly";
 import Blockly from "blockly";
-import { toolboxCategories } from "../data/toolBoxCategories";
-import "blockly/blocks";
-import { javascriptGenerator } from "blockly/javascript";
 
+import { toolboxCategories } from "../data/toolBoxCategories";
+// import { javascriptGenerator } from "blockly/javascript";
 import { Input, Typography } from "antd";
+import "../constants/customEmailBlock";
+import { saveToFirebase } from "../db/dbFunc";
+import { useAppDispatch } from "../state/hooks";
+import { setBlockly } from "../state/reducers/blocklyReducer/blocklyReducer";
+import { useParams } from "react-router-dom";
 const { TextArea } = Input;
 
 const BlocklyComponent = () => {
   const [javascriptCode, setJavascriptCode] = useState("");
+  const [xml, setXml] = useState("");
+  const dispatch = useAppDispatch();
+  const { id } = useParams();
+  useEffect(() => {
+    dispatch(setBlockly(xml));
+  }, [xml]);
 
   const handleWorkspaceChange = (workspace: any) => {
     try {
-      const code = javascriptGenerator.workspaceToCode(workspace);
+      const code = Blockly.JavaScript.workspaceToCode(workspace);
       setJavascriptCode(code);
     } catch (error) {
       console.log(error);
     }
-  };
-  // Define custom block
-  // Define custom block
-  Blockly.Blocks["custom_email_description"] = {
-    init: function () {
-      this.jsonInit({
-        type: "custom_email_description",
-        message0: "Email: %1 Description: %2",
-        args0: [
-          {
-            type: "field_input",
-            name: "EMAIL",
-            text: "",
-          },
-          {
-            type: "field_input",
-            name: "DESCRIPTION",
-            text: "",
-          },
-        ],
-        output: "Hiii",
-        colour: 230,
-        tooltip: "",
-        helpUrl: "",
-      });
-    },
   };
 
   return (
@@ -57,7 +41,7 @@ const BlocklyComponent = () => {
         //   </xml>
         // `}
         onWorkspaceChange={handleWorkspaceChange}
-        onXmlChange={(xml) => console.log(xml)}
+        onXmlChange={(xml) => setXml(xml)}
         className="fill-height"
         workspaceConfiguration={{
           move: {

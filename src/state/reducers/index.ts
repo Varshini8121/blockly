@@ -1,9 +1,9 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import apiReducer from "./apiReducer/apiReducer";
-import tripReducer from "./tripReducer/tripReducer";
+import blocklyReducer from "./blocklyReducer/blocklyReducer";
 
 const reducers = combineReducers({
-  trip: tripReducer,
+  blockly: blocklyReducer,
 });
 
 export default reducers;

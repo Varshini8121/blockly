@@ -2,29 +2,13 @@ import { matchPath, useLocation } from "react-router-dom";
 
 export enum routeNames {
   HOME = "Blockly",
-  TRIP = "Trip",
-  TRIPDATA = "Trip data",
-
-  PROFILE = "Profile",
-  ANALYTICS = "Analytics",
+  PROJECTS = "Projects",
 }
 export const routeNamePath = {
   [routeNames.HOME]: "/",
-  [routeNames.TRIP]: "/trips",
-  [routeNames.TRIPDATA]: "/trips/:id",
-
-  [routeNames.ANALYTICS]: "/analytics",
-  [routeNames.PROFILE]: "/profile",
+  [routeNames.PROJECTS]: "/projects/:id",
 };
-export const routePaths = [
-  { path: "/", name: routeNames.HOME },
-  { path: "/trips", name: routeNames.TRIP },
-  { path: "/trips/:id", name: routeNames.TRIPDATA },
-
-  { path: "/analytics", name: routeNames.ANALYTICS },
-
-  { path: "/profile", name: routeNames.PROFILE },
-];
+export const routePaths = [{ path: "/", name: routeNames.HOME }];
 export const getRouteName = () => {
   const { pathname } = useLocation();
   for (const route of routePaths) {
