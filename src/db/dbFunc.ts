@@ -37,11 +37,11 @@ export const readData = async () => {
 };
 
 export const updateData = async (docId: string, newData: string) => {
-  await updateDoc(doc(db, docId), { data: newData })
+  await updateDoc(doc(db, DBCollectionName, docId), { data: newData })
     .then(() => {
-      console.log("Document updated successfully");
+      message.success("Document updated successfully !!");
     })
     .catch((error) => {
-      console.error("Error updating document:", error);
+      message.error("Error updating document !!");
     });
 };

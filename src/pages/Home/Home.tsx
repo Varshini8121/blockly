@@ -80,7 +80,6 @@ export const Home: React.FC = () => {
       okText: "Save",
     });
   };
-  console.log("----------- ", id);
   const saveToDB = () => {
     // showConfirm();
     console.log("To Save ", xml);

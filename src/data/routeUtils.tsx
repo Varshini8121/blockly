@@ -16,5 +16,5 @@ export const getRouteName = () => {
       return route.name;
     }
   }
-  return pathname;
+  return "Projects";
 };
