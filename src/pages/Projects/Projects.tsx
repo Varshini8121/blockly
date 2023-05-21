@@ -30,8 +30,10 @@ export const Projects = () => {
       const data: any = { id: docSnapshot.id, ...docSnapshot.data() };
       setXml(data.data);
       dispatch(setBlockly(data.data));
-      setLoading(false);
-      navigate("/projects/" + id);
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/projects/" + id);
+      }, 1000);
     } else {
       setLoading(false);
       message.error("Document does not exist.");

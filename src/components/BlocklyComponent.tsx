@@ -9,7 +9,7 @@ import "../constants/customEmailBlock";
 import { DBCollectionName, saveToFirebase } from "../db/dbFunc";
 import { useAppDispatch } from "../state/hooks";
 import { setBlockly } from "../state/reducers/blocklyReducer/blocklyReducer";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { collection, doc, getDoc, getDocs, where } from "firebase/firestore";
 import { db } from "../db/firebaseConfig";
 const { TextArea } = Input;
@@ -20,6 +20,12 @@ const BlocklyComponent = ({ getXML }: { getXML: () => string }) => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const workspaceRef = useRef<any>(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (id !== "new" && !getXML()) {
+      navigate("/");
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(setBlockly(xml));
@@ -71,7 +77,7 @@ const BlocklyComponent = ({ getXML }: { getXML: () => string }) => {
             drag: true,
             wheel: true,
           },
-          trashcan: true,
+          trashcan: false,
         }}
       />
       <div className="my-3">
