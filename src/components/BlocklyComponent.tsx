@@ -4,7 +4,7 @@ import Blockly from "blockly";
 
 import { toolboxCategories } from "../data/toolBoxCategories";
 // import { javascriptGenerator } from "blockly/javascript";
-import { Input, Typography, message } from "antd";
+import { Button, Input, Typography, message } from "antd";
 import "../constants/customEmailBlock";
 import { DBCollectionName, saveToFirebase } from "../db/dbFunc";
 import { useAppDispatch } from "../state/hooks";
@@ -12,10 +12,13 @@ import { setBlockly } from "../state/reducers/blocklyReducer/blocklyReducer";
 import { useNavigate, useParams } from "react-router-dom";
 import { collection, doc, getDoc, getDocs, where } from "firebase/firestore";
 import { db } from "../db/firebaseConfig";
+
 const { TextArea } = Input;
 
 const BlocklyComponent = ({ getXML }: { getXML: () => string }) => {
   const [javascriptCode, setJavascriptCode] = useState("");
+  const [output, setoutput] = useState("");
+
   const [xml, setXml] = useState("");
   const dispatch = useAppDispatch();
   const { id } = useParams();
@@ -59,6 +62,18 @@ const BlocklyComponent = ({ getXML }: { getXML: () => string }) => {
     }
   };
 
+  const executeCode = (code: string): string => {
+    try {
+      const wrappedCode = `(function() { ${code} })()`;
+      const evalFunc = new Function(wrappedCode);
+      const result = evalFunc();
+      return String(result);
+    } catch (error) {
+      console.error(error);
+      return "";
+    }
+  };
+
   return (
     <div className="ml-5 my-5">
       {/* <BlocklyTest /> */}
@@ -80,11 +95,29 @@ const BlocklyComponent = ({ getXML }: { getXML: () => string }) => {
           trashcan: false,
         }}
       />
-      <div className="my-3">
-        <div>
-          <Typography.Title level={4}>Generated Code</Typography.Title>
+
+      <div className="flex justify-between">
+        <div className="my-3 w-1/2">
+          <div>
+            <Typography.Title level={4}>Generated Code</Typography.Title>
+          </div>
+          <TextArea rows={10} value={javascriptCode}></TextArea>
         </div>
-        <TextArea rows={10} value={javascriptCode}></TextArea>
+
+        <div className="w-1/3">
+          <div className="flex justify-between">
+            <Typography.Title level={4}>Output Code</Typography.Title>
+            <Button
+              onClick={() => {
+                const result = executeCode(javascriptCode);
+                setoutput(result);
+              }}
+            >
+              Run code
+            </Button>
+          </div>
+          <TextArea rows={10} value={output}></TextArea>
+        </div>
       </div>
     </div>
   );
